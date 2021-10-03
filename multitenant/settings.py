@@ -25,22 +25,58 @@ SECRET_KEY = "django-insecure-ih8d&x@27p@5r%b+i6mf&$%&+q8%pqy54d&(5=%e(nnobt7m-z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "*",
+]
 
 
 # Application definition
 
-INSTALLED_APPS = [
+
+DJANGO_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "base.apps.BaseConfig",
 ]
 
+THIRD_PARTY_APPS = [
+    # "rest_framework",
+    # # 'storages',
+    # "django_hosts",
+    # # 'django_filters',
+    # "captcha",
+    # "debug_toolbar",
+    # # 'leaflet',
+    # # 'rest_framework_gis',
+    # "naomi",
+    # "compressor",
+    # "cacheops",
+]
+LOCAL_APPS_TENANT = [
+    "blog",
+]
+LOCAL_APPS_SHARED = [
+    "base",
+]
+LOCAL_APPS = [*LOCAL_APPS_SHARED, *LOCAL_APPS_TENANT]
+SHARED_APPS = list(dict.fromkeys(["tenant_schemas", *DJANGO_APPS, *LOCAL_APPS_SHARED]))
+
+TENANT_APPS = [
+    *LOCAL_APPS_TENANT,
+    "django.contrib.contenttypes",
+]
+
+
+INSTALLED_APPS = list(
+    dict.fromkeys(["tenant_schemas", *DJANGO_APPS, *THIRD_PARTY_APPS, *LOCAL_APPS])
+)
+
 MIDDLEWARE = [
+    "tenant_schemas.middleware.TenantMiddleware",
+    # "tenant_schemas.middleware.SuspiciousTenantMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -76,12 +112,13 @@ WSGI_APPLICATION = "multitenant.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "ENGINE": "tenant_schemas.postgresql_backend",
         "NAME": "db_tenant",
         "USER": "postgres",
         "PASSWORD": "postgres",
         "HOST": "localhost",
         "PORT": "5432",
+        "CHARTSET": "UTF8",
     }
 }
 
@@ -128,3 +165,10 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# Tenant
+DATABASE_ROUTERS = ("tenant_schemas.routers.TenantSyncRouter",)
+
+TEMPLATE_CONTEXT_PROCESSORS = ("django.template.context_processors.request",)
+TENANT_MODEL = "base.Client"  # app.Model
+DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
