@@ -44,38 +44,47 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     # "rest_framework",
-    # # 'storages',
+    # 'storages',
     # "django_hosts",
-    # # 'django_filters',
+    # 'django_filters',
     # "captcha",
     # "debug_toolbar",
-    # # 'leaflet',
-    # # 'rest_framework_gis',
+    # 'leaflet',
+    # 'rest_framework_gis',
     # "naomi",
     # "compressor",
     # "cacheops",
 ]
-LOCAL_APPS_TENANT = [
-    "blog",
-]
+
 LOCAL_APPS_SHARED = [
     "base",
 ]
-LOCAL_APPS = [*LOCAL_APPS_SHARED, *LOCAL_APPS_TENANT]
-SHARED_APPS = list(dict.fromkeys(["tenant_schemas", *DJANGO_APPS, *LOCAL_APPS_SHARED]))
-
-TENANT_APPS = [
-    *LOCAL_APPS_TENANT,
-    "django.contrib.contenttypes",
+LOCAL_APPS_TENANT = [
+    "blog",
 ]
+LOCAL_APPS = [*LOCAL_APPS_SHARED, *LOCAL_APPS_TENANT]
+
+
+SHARED_APPS = list(dict.fromkeys(["django_tenants", *DJANGO_APPS, *LOCAL_APPS_SHARED]))
+TENANT_APPS = [*LOCAL_APPS_TENANT, *DJANGO_APPS]
 
 
 INSTALLED_APPS = list(
-    dict.fromkeys(["tenant_schemas", *DJANGO_APPS, *THIRD_PARTY_APPS, *LOCAL_APPS])
+    dict.fromkeys(
+        [
+            "django_tenants",
+            *LOCAL_APPS,
+            *DJANGO_APPS,
+            *THIRD_PARTY_APPS,
+        ]
+    )
 )
+TENANT_MODEL = "base.Client"  # app.Model
+TENANT_DOMAIN_MODEL = "base.Domain"  # app.Model
+
 
 MIDDLEWARE = [
-    "tenant_schemas.middleware.TenantMiddleware",
+    "django_tenants.middleware.main.TenantMainMiddleware",
     # "tenant_schemas.middleware.SuspiciousTenantMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -95,8 +104,8 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
-                "django.template.context_processors.debug",
                 "django.template.context_processors.request",
+                "django.template.context_processors.debug",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -109,10 +118,12 @@ WSGI_APPLICATION = "multitenant.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+DATABASE_ROUTERS = ("django_tenants.routers.TenantSyncRouter",)
+
 
 DATABASES = {
     "default": {
-        "ENGINE": "tenant_schemas.postgresql_backend",
+        "ENGINE": "django_tenants.postgresql_backend",
         "NAME": "db_tenant",
         "USER": "postgres",
         "PASSWORD": "postgres",
@@ -166,9 +177,31 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Tenant
-DATABASE_ROUTERS = ("tenant_schemas.routers.TenantSyncRouter",)
 
-TEMPLATE_CONTEXT_PROCESSORS = ("django.template.context_processors.request",)
-TENANT_MODEL = "base.Client"  # app.Model
-DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "handlers": {
+        "mail_admins": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "django.utils.log.AdminEmailHandler",
+        }
+    },
+    "loggers": {
+        "django.request": {
+            "handlers": ["mail_admins"],
+            "level": "ERROR",
+            "propagate": True,
+        },
+    },
+}
+
+DEFAULT_FILE_STORAGE = "django_tenants.files.storage.TenantFileSystemStorage"
+MULTITENANT_RELATIVE_MEDIA_ROOT = "uploaded_files"

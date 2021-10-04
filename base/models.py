@@ -1,8 +1,9 @@
 from django.db import models
-from tenant_schemas.models import TenantMixin
+from django_tenants.models import TenantMixin, DomainMixin
 
 
 # shared app
+
 
 class Client(TenantMixin):
     name = models.CharField(max_length=100)
@@ -12,6 +13,10 @@ class Client(TenantMixin):
 
     # default true, schema will be automatically created and synced when it is saved
     auto_create_schema = True
+
+
+class Domain(DomainMixin):
+    pass
 
 
 class Language(models.Model):
