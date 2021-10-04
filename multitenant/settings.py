@@ -67,7 +67,8 @@ LOCAL_APPS_SHARED = [
 ]
 LOCAL_APPS_TENANT = [
     "blog",
-    "configuracion"
+    "configuracion",
+    "intranet.apps.IntranetConfig"
 ]
 LOCAL_APPS = [*LOCAL_APPS_SHARED, *LOCAL_APPS_TENANT]
 
@@ -103,7 +104,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "multitenant.urls"
+ROOT_URLCONF = "multitenant.tenants_urls"
+PUBLIC_SCHEMA_URLCONF = 'multitenant.public_urls'
 
 TEMPLATES = [
     {
@@ -174,7 +176,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = "/static/"
-
+STATICFILES_DIRS = [BASE_DIR / "statics", ]
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

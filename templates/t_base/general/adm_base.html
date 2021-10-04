@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creative - Bootstrap 3 Responsive Admin Template">
+  <meta name="author" content="GeeksLabs">
+  <meta name="keyword" content="Creative, Dashboard, Admin, Template, Theme, Bootstrap, Responsive, Retina, Minimal">
+  <link rel="shortcut icon" href="{% static 'adm/img/favicon.png' %}">
+
+  <title>Creative - Bootstrap Admin Template</title>
+  <!-- Bootstrap CSS -->
+  <link href="{% static 'adm/css/bootstrap.min.css' %}" rel="stylesheet">
+  <!-- bootstrap theme -->
+  <link href="{% static 'adm/css/bootstrap-theme.css' %}" rel="stylesheet">
+  <!--external css-->
+  <!-- font icon -->
+  <link href="{% static 'adm/css/elegant-icons-style.css' %}" rel="stylesheet"/>
+  <link href="{% static 'adm/css/font-awesome.min.css' %}" rel="stylesheet"/>
+  <!-- full calendar css-->
+  <link href="{% static 'adm/assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css' %}" rel="stylesheet"/>
+  <link href="{% static 'adm/assets/fullcalendar/fullcalendar/fullcalendar.css' %}" rel="stylesheet"/>
+  <!-- easy pie chart-->
+  <link href="{% static 'adm/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css' %}" rel="stylesheet"
+        type="text/css' %}'" media="screen"/>
+  <!-- owl carousel -->
+  <link rel="stylesheet" href="{% static 'adm/css/owl.carousel.css' %}" type="text/css' %}">
+  <link href="{% static 'adm/css/jquery-jvectormap-1.2.2.css' %}" rel="stylesheet">
+  <!-- Custom styles -->
+  <link rel="stylesheet" href="{% static 'adm/css/fullcalendar.css' %}">
+  <link href="{% static 'adm/css/widgets.css' %}" rel="stylesheet">
+  <link href="{% static 'adm/css/style.css' %}" rel="stylesheet">
+  <link href="{% static 'adm/css/style-responsive.css' %}" rel="stylesheet"/>
+  <link href="{% static 'adm/css/xcharts.min.css' %}" rel=" stylesheet">
+  <link href="{% static 'adm/css/jquery-ui-1.10.4.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+<!-- container section start -->
+<section id="container" class="">
+
+
+  <header class="header dark-bg">
+    <div class="toggle-nav">
+      <div class="icon-reorder tooltips" data-original-title="Toggle Navigation" data-placement="bottom"><i
+              class="icon_menu"></i></div>
+    </div>
+
+    <!--logo start-->
+    <a href="#" class="logo">Nice <span class="lite">Admin</span></a>
+    <!--logo end-->
+    <div class="nav search-row" id="top_menu">
+      <ul class="nav top-menu">
+        <li>
+          <form class="navbar-form">
+            <input class="form-control" placeholder="Search" type="text">
+          </form>
+        </li>
+      </ul>
+    </div>
+
+    {% include 't_base/general/header.html' %}
+
+  </header>
+  <!--header end-->
+
+  <!--sidebar start-->
+  {% include 't_base/general/aside.html' %}
+  <!--sidebar end-->
+
+  <!--main content start-->
+  <section id="main-content">
+    <section class="wrapper">
+      {% block content %}
+
+      {% endblock %}
+    </section>
+  </section>
+  <!--main content end-->
+</section>
+<!-- container section start -->
+
+<!-- javascripts -->
+<script src="{% static 'adm/js/jquery.js' %}"></script>
+<script src="{% static 'adm/js/jquery-ui-1.10.4.min.js' %}"></script>
+<script src="{% static 'adm/js/jquery-1.8.3.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'adm/js/jquery-ui-1.9.2.custom.min.js' %}"></script>
+<!-- bootstrap -->
+<script src="{% static 'adm/js/bootstrap.min.js' %}"></script>
+<!-- nice scroll -->
+<script src="{% static 'adm/js/jquery.scrollTo.min.js' %}"></script>
+<script src="{% static 'adm/js/jquery.nicescroll.js" type="text/javascript' %}"></script>
+<!-- charts scripts -->
+<script src="{% static 'adm/assets/jquery-knob/js/jquery.knob.js' %}"></script>
+<script src="{% static 'adm/js/jquery.sparkline.js" type="text/javascript' %}"></script>
+<script src="{% static 'adm/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js' %}"></script>
+<script src="{% static 'adm/js/owl.carousel.js' %}"></script>
+<!-- jQuery full calendar -->
+<script src="{% static 'adm/js/fullcalendar.min.js' %}"></script>
+<!-- Full Google Calendar - Calendar -->
+<script src="{% static 'adm/assets/fullcalendar/fullcalendar/fullcalendar.js' %}"></script>
+<!--script for this page only-->
+<script src="{% static 'adm/js/calendar-custom.js' %}"></script>
+<script src="{% static 'adm/js/jquery.rateit.min.js' %}"></script>
+<!-- custom select -->
+<script src="{% static 'adm/js/jquery.customSelect.min.js' %}"></script>
+<script src="{% static 'adm/assets/chart-master/Chart.js' %}"></script>
+
+<!--custome script for all page-->
+<script src="{% static 'adm/js/scripts.js' %}"></script>
+<!-- custom script for this page-->
+<script src="{% static 'adm/js/sparkline-chart.js' %}"></script>
+<script src="{% static 'adm/js/easy-pie-chart.js' %}"></script>
+<script src="{% static 'adm/js/jquery-jvectormap-1.2.2.min.js' %}"></script>
+<script src="{% static 'adm/js/jquery-jvectormap-world-mill-en.js' %}"></script>
+<script src="{% static 'adm/js/xcharts.min.js' %}"></script>
+<script src="{% static 'adm/js/jquery.autosize.min.js' %}"></script>
+<script src="{% static 'adm/js/jquery.placeholder.min.js' %}"></script>
+<script src="{% static 'adm/js/gdp-data.js' %}"></script>
+<script src="{% static 'adm/js/morris.min.js' %}"></script>
+<script src="{% static 'adm/js/sparklines.js' %}"></script>
+<script src="{% static 'adm/js/charts.js' %}"></script>
+<script src="{% static 'adm/js/jquery.slimscroll.min.js' %}"></script>
+<script>
+  //knob
+  $(function () {
+    $(".knob").knob({
+      'draw': function () {
+        $(this.i).val(this.cv + '%')
+      }
+    })
+  });
+
+  //carousel
+  $(document).ready(function () {
+    $("#owl-slider").owlCarousel({
+      navigation: true,
+      slideSpeed: 300,
+      paginationSpeed: 400,
+      singleItem: true
+
+    });
+  });
+
+  //custom select box
+
+  $(function () {
+    $('select.styled').customSelect();
+  });
+
+  /* ---------- Map ---------- */
+  $(function () {
+    $('#map').vectorMap({
+      map: 'world_mill_en',
+      series: {
+        regions: [{
+          values: gdpData,
+          scale: ['#000', '#000'],
+          normalizeFunction: 'polynomial'
+        }]
+      },
+      backgroundColor: '#eef3f7',
+      onLabelShow: function (e, el, code) {
+        el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
+      }
+    });
+  });
+</script>
+
+</body>
+
+</html>
