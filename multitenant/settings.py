@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -29,19 +28,25 @@ ALLOWED_HOSTS = [
     "*",
 ]
 
-
 # Application definition
 
 
-DJANGO_APPS = [
-    "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
-    "django.contrib.staticfiles",
+DJANGO_APPS_SHARED = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 ]
-
+DJANGO_APPS_TENANT = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+]
+DJANGO_APPS = list(dict.fromkeys([*DJANGO_APPS_SHARED, *DJANGO_APPS_TENANT]))
 THIRD_PARTY_APPS = [
     # "rest_framework",
     # 'storages',
@@ -58,16 +63,16 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS_SHARED = [
     "base",
+    "configuracion"
 ]
 LOCAL_APPS_TENANT = [
     "blog",
+    "configuracion"
 ]
 LOCAL_APPS = [*LOCAL_APPS_SHARED, *LOCAL_APPS_TENANT]
 
-
 SHARED_APPS = list(dict.fromkeys(["django_tenants", *DJANGO_APPS, *LOCAL_APPS_SHARED]))
-TENANT_APPS = [*LOCAL_APPS_TENANT, *DJANGO_APPS]
-
+TENANT_APPS = [*DJANGO_APPS_TENANT, *LOCAL_APPS_TENANT, ]
 
 INSTALLED_APPS = list(
     dict.fromkeys(
@@ -82,6 +87,9 @@ INSTALLED_APPS = list(
 TENANT_MODEL = "base.Client"  # app.Model
 TENANT_DOMAIN_MODEL = "base.Domain"  # app.Model
 
+AUTH_USER_MODEL = "configuracion.User"
+
+PASSWORD_RESET_TIMEOUT_DAYS = 1
 
 MIDDLEWARE = [
     "django_tenants.middleware.main.TenantMainMiddleware",
@@ -115,11 +123,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "multitenant.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 DATABASE_ROUTERS = ("django_tenants.routers.TenantSyncRouter",)
-
 
 DATABASES = {
     "default": {
@@ -132,7 +138,6 @@ DATABASES = {
         "CHARTSET": "UTF8",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -152,7 +157,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -166,7 +170,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
@@ -176,7 +179,6 @@ STATIC_URL = "/static/"
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
