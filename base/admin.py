@@ -12,3 +12,6 @@ class DomainInline(admin.TabularInline):
 class ClientAdmin(admin.ModelAdmin):
     inlines = [DomainInline]
     list_display = ("schema_name", "name")
+
+    def get_queryset(self, request):
+        return super().get_queryset(request)
